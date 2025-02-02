@@ -1,12 +1,35 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'rxjs-demo';
+  isCountdownActive: boolean = false;
+  count: number = 0;
+  initialCount: number = 0;
+  title: string = 'Angular Countdown App'; 
+
+  startCountdown() {
+    if (this.isCountdownActive || this.count <= 0) {
+      return; 
+    }
+    
+    this.initialCount = this.count;
+    this.isCountdownActive = true; 
+    const interval = setInterval(() => {
+      if (this.count > 0) {
+        this.count--;
+      } else {
+        clearInterval(interval); 
+        this.isCountdownActive = false; 
+      }
+    }, 1000);
+  }
 }
